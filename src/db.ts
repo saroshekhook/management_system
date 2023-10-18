@@ -1,29 +1,24 @@
-// src/db.ts
 import { Sequelize } from "sequelize";
+import development from "./config/database";
 
-const sequelize = new Sequelize("db", "root", "admin", {
-  host: "localhost",
-  dialect: "mysql",
-  port: 3306,
-});
+class Database {
+  public sequelize: Sequelize;
 
-sequelize
-  .authenticate()
-  .then((res) => {
-    console.log("Connection has been established successfully.");
-    return res;
-  })
-  .catch((error) => {
-    console.error("Unable to connect to the database:", error);
-  })
-  .then(() => {
-    return sequelize.sync();
-  })
-  .then(() => {
-    console.log("tables are in sync with ORM");
-  })
-  .catch((error) => {
-    console.error("error in sync", error);
-  });
+  constructor() {
+    this.sequelize = new Sequelize(development.development);
+    this.authenticate();
+  }
 
-export default sequelize;
+  private async authenticate(): Promise<void> {
+    try {
+      await this.sequelize.authenticate();
+      console.log("Connection has been established successfully.");
+    } catch (error) {
+      console.error("Unable to connect to the database:", error);
+    }
+  }
+}
+
+const database = new Database();
+
+export default database.sequelize;
