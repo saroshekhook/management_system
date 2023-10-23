@@ -5,7 +5,4 @@ const router = express.Router();
 
 router.use("/todos", todoRoutes);
 
-router.use("/secTodo", todoRoutes);
-
-
 export default router;

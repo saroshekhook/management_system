@@ -1,4 +1,3 @@
-// src/routes/databaseRoutes.ts
 import express from "express";
 import {
   getAllTodos,

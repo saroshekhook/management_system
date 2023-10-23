@@ -1,11 +1,13 @@
 import { Sequelize } from "sequelize";
-import development from "./config/database";
+import * as config from "./config/config";
+import { configType } from "./config/types";
+import { getEnv } from "./util/getEnv";
 
 class Database {
   public sequelize: Sequelize;
 
   constructor() {
-    this.sequelize = new Sequelize(development.development);
+    this.sequelize = new Sequelize(config[getEnv()] as configType);
     this.authenticate();
   }
 

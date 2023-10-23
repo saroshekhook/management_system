@@ -20,7 +20,7 @@ export const getAllTodos = async (req: Request, res: Response) => {
 export const createTodo = async (req: Request, res: Response) => {
   log(req.body);
   const todo = await TODO.create({
-    description: req.body.description || "Saro is testing the description",
+    description: req.body.description /* || "Saro is testing the description" */,
     status: TODO_Status.inprogress,
   });
   res.status(200).json(todo.toJSON());
@@ -33,7 +33,7 @@ export const updateTodo = async (req: Request, res: Response) => {
   if (!todo)
     return res.status(200).json({ description: "id not found try again" });
 
-  todo.description = "changing the desc";
+  todo.description = req.body.description/* "changing the desc" */;
   await todo.save();
   return res.status(200).json({ description: "description has been changed" });
 };

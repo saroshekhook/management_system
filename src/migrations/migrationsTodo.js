@@ -1,7 +1,7 @@
-import { QueryInterface, DataTypes } from "sequelize";
-import { TODO_Status } from "../models/Todo";
+const { DataTypes } = require("sequelize");
+const { TODO_Status } = require("../dist/models/Todo.js");
 
-export const up = async (queryInterface: QueryInterface) => {
+const up = async (queryInterface) => {
   await queryInterface.createTable("Todo", {
     id: {
       type: DataTypes.INTEGER,
@@ -24,6 +24,8 @@ export const up = async (queryInterface: QueryInterface) => {
   });
 };
 
-export const down = async (queryInterface: QueryInterface) => {
+const down = async (queryInterface) => {
   await queryInterface.dropTable("Todo");
 };
+
+module.exports = { up, down };
