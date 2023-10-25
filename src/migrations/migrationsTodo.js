@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const { TODO_Status } = require("../dist/models/Todo.js");
+const { TODO_Status } = require("../models/Todo");
 
 const up = async (queryInterface) => {
   await queryInterface.createTable("Todo", {

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/app.ts",
-    "migrate": "tsc --outDir ./dist src/models/Todo.ts && sequelize db:migrate",
-    "migrate:undo": "tsc src/app.ts && sequelize db:migrate:undo",
+    "migrate": "tsc && sequelize db:migrate",
+    "migrate:undo": "tsc && sequelize db:migrate:undo",
     "sequelize": "sequelize"
   },
   "keywords": [],

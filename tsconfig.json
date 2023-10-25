@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "lib": ["ES2015"],
     "module": "commonjs",
-    "outDir": "dist",
+    "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
@@ -13,10 +13,6 @@
     "emitDecoratorMetadata": true,
     "allowJs": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/config/database.js",
-    "src/migrations/migrationsTodo.js"
-  ],
+  "include": ["src", "src/routes.js"],
   "exclude": ["node_modules"]
 }
