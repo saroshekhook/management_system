@@ -1,27 +1,27 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../db";
 
-export enum TODO_Status {
+export enum TASK_Status {
   done = "done",
   inprogress = "inprogress",
   deleted = "deleted",
 }
 
-type TodoAttributes = {
+type TaskAttributes = {
   id: number;
   description: string;
-  status: TODO_Status;
+  status: TASK_Status;
 };
 
-type TodoAttributesCreation = Optional<TodoAttributes, "id">;
+type TaskAttributesCreation = Optional<TaskAttributes, "id">;
 
-class TODO extends Model<TodoAttributes, TodoAttributesCreation> {
+class TASK extends Model<TaskAttributes, TaskAttributesCreation> {
   declare id: number;
   declare description: string;
-  declare status: TODO_Status;
+  declare status: TASK_Status;
 }
 
-TODO.init(
+TASK.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -36,9 +36,9 @@ TODO.init(
     },
     status: {
       type: DataTypes.ENUM(
-        TODO_Status.deleted,
-        TODO_Status.inprogress,
-        TODO_Status.done
+        TASK_Status.deleted,
+        TASK_Status.inprogress,
+        TASK_Status.done
       ),
       allowNull: false,
     },
@@ -46,8 +46,8 @@ TODO.init(
   {
     timestamps: true,
     sequelize,
-    tableName: "Todo",
+    tableName: "Task",
   }
 );
 
-export default TODO;
+export default TASK;

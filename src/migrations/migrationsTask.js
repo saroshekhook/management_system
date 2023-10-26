@@ -1,7 +1,7 @@
-const { TODO_Status } = require("../models/Todo");
+const { TASK_Status } = require("../models/Task");
 
 const up = async (queryInterface, Sequelize) => {
-  await queryInterface.createTable("Todo", {
+  await queryInterface.createTable("Task", {
     id: {
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
@@ -14,9 +14,9 @@ const up = async (queryInterface, Sequelize) => {
     },
     status: {
       type: Sequelize.DataTypes.ENUM(
-        TODO_Status.deleted,
-        TODO_Status.inprogress,
-        TODO_Status.done
+        TASK_Status.deleted,
+        TASK_Status.inprogress,
+        TASK_Status.done
       ),
       allowNull: false,
     },
@@ -32,7 +32,7 @@ const up = async (queryInterface, Sequelize) => {
 };
 
 const down = async (queryInterface) => {
-  await queryInterface.dropTable("Todo");
+  await queryInterface.dropTable("Task");
 };
 
 module.exports = { up, down };
