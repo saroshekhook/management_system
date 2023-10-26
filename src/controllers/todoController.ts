@@ -3,7 +3,7 @@ import TODO, { TODO_Status } from "../models/Todo";
 import { Op } from "sequelize";
 
 export const getAllTodos = async (req: Request, res: Response) => {
-  try {
+ try {
     req.query.index;
     const todos = await TODO.findAll({
       where: {
@@ -11,10 +11,10 @@ export const getAllTodos = async (req: Request, res: Response) => {
       },
     });
     res.status(200).json(todos || []);
-  } catch (error) {
+ } catch (error) {
     console.error("Error in getAllTodos:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+   res.status(500).json({ error: "Internal server error" });
+ }
 };
 
 export const createTodo = async (req: Request, res: Response) => {

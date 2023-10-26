@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["ES2015"],
+    "target": "ES6",
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -13,6 +13,6 @@
     "emitDecoratorMetadata": true,
     "allowJs": true
   },
-  "include": ["src", "src/routes.js"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

@@ -1,25 +1,32 @@
-const { DataTypes } = require("sequelize");
 const { TODO_Status } = require("../models/Todo");
 
-const up = async (queryInterface) => {
+const up = async (queryInterface, Sequelize) => {
   await queryInterface.createTable("Todo", {
     id: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
     },
     description: {
-      type: DataTypes.STRING,
+      type: Sequelize.DataTypes.STRING,
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM(
+      type: Sequelize.DataTypes.ENUM(
         TODO_Status.deleted,
         TODO_Status.inprogress,
         TODO_Status.done
       ),
       allowNull: false,
+    },
+    createdAt: {
+      type: Sequelize.DataTypes.DATE,
+      defaultValue: new Date(),
+    },
+    updatedAt: {
+      type: Sequelize.DataTypes.DATE,
+      defaultValue: new Date(),
     },
   });
 };

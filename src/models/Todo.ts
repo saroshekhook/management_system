@@ -44,6 +44,7 @@ TODO.init(
     },
   },
   {
+    timestamps: true,
     sequelize,
     tableName: "Todo",
   }
