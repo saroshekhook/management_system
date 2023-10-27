@@ -7,7 +7,14 @@ export const getAllTasks = async (req: Request, res: Response) => {
     req.query.index;
     const tasks = await TASK.findAll({
       where: {
-        status: { [Op.or]: [TASK_Status.done, TASK_Status.inprogress] },
+        status: {
+          [Op.or]: [
+            TASK_Status.done,
+            TASK_Status.inprogress,
+            TASK_Status.pending,
+            TASK_Status.testing,
+          ],
+        },
       },
     });
     res.status(200).json(tasks || []);
@@ -21,7 +28,6 @@ export const createTask = async (req: Request, res: Response) => {
   try {
     const task = await TASK.create({
       description: req.body.description,
-      status: TASK_Status.inprogress,
     });
     res.status(200).json(task.toJSON());
   } catch (error) {

@@ -4,13 +4,14 @@ import sequelize from "../db";
 export enum TASK_Status {
   done = "done",
   inprogress = "inprogress",
-  deleted = "deleted",
+  pending = "pending",
+  testing = "testing",
 }
 
 type TaskAttributes = {
-  id: number;
-  description: string;
-  status: TASK_Status;
+  id?: number;
+  description?: string;
+  status?: TASK_Status;
 };
 
 type TaskAttributesCreation = Optional<TaskAttributes, "id">;
@@ -36,11 +37,13 @@ TASK.init(
     },
     status: {
       type: DataTypes.ENUM(
-        TASK_Status.deleted,
         TASK_Status.inprogress,
-        TASK_Status.done
+        TASK_Status.done,
+        TASK_Status.pending,
+        TASK_Status.testing
       ),
       allowNull: false,
+      defaultValue: TASK_Status.pending,
     },
   },
   {
