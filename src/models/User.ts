@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../db";
+import * as bcrypt from "bcrypt";
 
 export enum USER_Type {
   admin = "admin",
@@ -53,6 +54,7 @@ USER.init(
         USER_Type.head,
         USER_Type.developer
       ),
+      defaultValue: USER_Type.developer,
       allowNull: false,
     },
   },
@@ -60,6 +62,22 @@ USER.init(
     timestamps: true,
     sequelize,
     tableName: "User",
+    hooks: {
+      async beforeCreate(user: USER) {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        user.password = hashedPassword;
+      },
+      async beforeUpdate(user: USER) {
+        if (user.changed("password")) {
+          try {
+            const hashedPassword = await bcrypt.hash(user.password, 10);
+            user.password = hashedPassword;
+          } catch (error) {
+            console.error("Error hashing password", error);
+          }
+        }
+      },
+    },
   }
 );
 
