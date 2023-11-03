@@ -1,7 +1,7 @@
 // src/app.ts
 import express from "express";
 import bodyParser from "body-parser";
-import router from "./routes";
+import router from "./routes/index";
 import { config } from "dotenv";
 config();
 

@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import TASK, { TASK_Status } from "../models/Task";
+import Task, { TASK_Status } from "../models/Task";
 import { Op } from "sequelize";
 
+// Retrieves all tasks from the database
 export const getAllTasks = async (req: Request, res: Response) => {
   try {
     req.query.index;
-    const tasks = await TASK.findAll({
+    const tasks = await Task.findAll({
       where: {
         status: {
           [Op.or]: [
@@ -24,9 +25,10 @@ export const getAllTasks = async (req: Request, res: Response) => {
   }
 };
 
+// Creates a new tast in the database
 export const createTask = async (req: Request, res: Response) => {
   try {
-    const task = await TASK.create({
+    const task = await Task.create({
       description: req.body.description,
     });
     res.status(200).json(task.toJSON());
@@ -36,9 +38,10 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
+// Updates an existing task in the database
 export const updateTask = async (req: Request, res: Response) => {
   try {
-    const task = await TASK.findOne({
+    const task = await Task.findOne({
       where: { id: Number(req.params.id) },
     });
     if (!task)
@@ -55,9 +58,10 @@ export const updateTask = async (req: Request, res: Response) => {
   }
 };
 
+// Deletes a task from the database
 export const deleteTask = async (req: Request, res: Response) => {
   try {
-    const taskDeleted = await TASK.findOne({
+    const taskDeleted = await Task.findOne({
       where: { id: Number(req.params.id) },
     });
     if (!taskDeleted)

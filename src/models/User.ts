@@ -18,7 +18,7 @@ type UserAttributes = {
 
 type UserAttributesCreation = Optional<UserAttributes, "id">;
 
-class USER extends Model<UserAttributes, UserAttributesCreation> {
+class User extends Model<UserAttributes, UserAttributesCreation> {
   declare id: number;
   declare username: string;
   declare email: string;
@@ -26,7 +26,7 @@ class USER extends Model<UserAttributes, UserAttributesCreation> {
   declare type: USER_Type;
 }
 
-USER.init(
+User.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -63,11 +63,11 @@ USER.init(
     sequelize,
     tableName: "User",
     hooks: {
-      async beforeCreate(user: USER) {
+      async beforeCreate(user: User) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         user.password = hashedPassword;
       },
-      async beforeUpdate(user: USER) {
+      async beforeUpdate(user: User) {
         if (user.changed("password")) {
           try {
             const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -81,4 +81,4 @@ USER.init(
   }
 );
 
-export default USER;
+export default User;

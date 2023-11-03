@@ -16,13 +16,13 @@ type TaskAttributes = {
 
 type TaskAttributesCreation = Optional<TaskAttributes, "id">;
 
-class TASK extends Model<TaskAttributes, TaskAttributesCreation> {
+class Task extends Model<TaskAttributes, TaskAttributesCreation> {
   declare id: number;
   declare description: string;
   declare status: TASK_Status;
 }
 
-TASK.init(
+Task.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -53,4 +53,4 @@ TASK.init(
   }
 );
 
-export default TASK;
+export default Task;
