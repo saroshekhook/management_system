@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import jwt, { VerifyErrors, VerifyOptions } from "jsonwebtoken";
+import jwt, { VerifyCallback, VerifyErrors, VerifyOptions } from "jsonwebtoken";
 import { getJWTSecret } from "../util/getJWTSecret";
 import { RequestWithUser } from "../types/types";
 import { USER_Type } from "../models/User";
@@ -13,12 +13,11 @@ export async function isAuth(req: Request, res: Response, next: NextFunction) {
   if (token == null) return res.sendStatus(401);
 
   try {
-    const verify = promisify(jwt.verify) as (
-      token: string,
-      secretOrPublicKey: string | VerifyOptions
-    ) => Promise<object>;
+    const verify = promisify<
+      (token: string, secret: string) => Promise<string>
+    >(jwt.verify as any);
     const decodedToken = await verify(token, getJWTSecret());
-    (req as RequestWithUser).user = decodedToken as jwt.JwtPayload; // TODO check correct ts
+    (req as RequestWithUser).user = decodedToken; // TODO check correct ts
     next();
   } catch (err) {}
 }

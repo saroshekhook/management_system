@@ -1,16 +1,29 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import taskRouter from "./taskRoutes";
 import userRoutes from "./userRoutes";
-import { isAuth } from "../middlewares/auth";
+import { notFoundMiddleware } from "../middlewares/pageNotFound";
 
 const router = express.Router();
 
 router.use("/user", userRoutes);
 
 router.use("/tasks", taskRouter);
-router.use((req, res) => {
-  const endPoint = req.path.split('/').filter(Boolean).pop()
-  res.status(404).json({ error: `Page ${endPoint} not found` });
-});
+
+export const errorHandler = (
+  error: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (error) {
+    const status: number = error.statusCode || 500;
+    const message: string = error.message;
+    const data = error.data;
+    return res.status(status).json({ message, data });
+  }
+  notFoundMiddleware(req, res);
+};
+
+router.use(errorHandler);
 
 export default router;
