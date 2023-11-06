@@ -61,6 +61,7 @@ User.init(
   {
     timestamps: true,
     sequelize,
+    modelName: "User",
     tableName: "User",
     hooks: {
       async beforeCreate(user: User) {
@@ -80,5 +81,6 @@ User.init(
     },
   }
 );
+
 
 export default User;

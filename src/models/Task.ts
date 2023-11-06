@@ -49,6 +49,7 @@ Task.init(
   {
     timestamps: true,
     sequelize,
+    modelName: "Task",
     tableName: "Task",
   }
 );

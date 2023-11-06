@@ -1,25 +1,28 @@
 import { NextFunction, Response, Request } from "express";
-import jwt, { VerifyCallback, VerifyErrors, VerifyOptions } from "jsonwebtoken";
+import jwt, { JwtPayload, VerifyCallback, VerifyErrors, VerifyOptions } from "jsonwebtoken";
 import { getJWTSecret } from "../util/getJWTSecret";
 import { RequestWithUser } from "../types/types";
 import { USER_Type } from "../models/User";
 import { promisify } from "util";
+import { MyError, errorCatcher, errorThrower } from "../controllers/error";
 
 // Performs authentication checks
 export async function isAuth(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = authHeader && authHeader?.split(" ")[1];
 
-  if (token == null) return res.sendStatus(401);
-
+  
   try {
+    if (token == null) return errorThrower("", 401);
     const verify = promisify<
-      (token: string, secret: string) => Promise<string>
+      (token: string, secret: string) => Promise<JwtPayload>
     >(jwt.verify as any);
     const decodedToken = await verify(token, getJWTSecret());
     (req as RequestWithUser).user = decodedToken; // TODO check correct ts
     next();
-  } catch (err) {}
+  } catch (err) {
+    errorCatcher(next,err as MyError)
+  }
 }
 
 // Verifies if the user has authorization for certain options

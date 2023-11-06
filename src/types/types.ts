@@ -3,5 +3,5 @@ import { JwtPayload } from "jsonwebtoken";
 
 // User ID or token payload added by auth middleware
 export interface RequestWithUser extends Request {
-  user: string | JwtPayload;
+  user: JwtPayload;
 }

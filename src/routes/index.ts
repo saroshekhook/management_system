@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.use("/user", userRoutes);
 
-router.use("/tasks", taskRouter);
+router.use("/task", taskRouter);
+
+router.use(notFoundMiddleware)
 
 export const errorHandler = (
   error: any,
@@ -19,6 +21,9 @@ export const errorHandler = (
     const status: number = error.statusCode || 500;
     const message: string = error.message;
     const data = error.data;
+    if(status === 401 || status === 403) {
+      res.sendStatus(status)
+    }
     return res.status(status).json({ message, data });
   }
   notFoundMiddleware(req, res);

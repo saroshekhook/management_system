@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import Task, { TASK_Status } from "../models/Task";
+import User from "../models/User";
 import { Op } from "sequelize";
+import { USER_Type } from "../models/User";
+import { RequestWithUser } from "../types/types";
 
 // Retrieves all tasks from the database
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -28,8 +31,16 @@ export const getAllTasks = async (req: Request, res: Response) => {
 // Creates a new tast in the database
 export const createTask = async (req: Request, res: Response) => {
   try {
+    //TODO check fix typescript later
+    const user = await User.findByPk((req as RequestWithUser).user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const task = await Task.create({
       description: req.body.description,
+      id: user.id,
     });
     res.status(200).json(task.toJSON());
   } catch (error) {
