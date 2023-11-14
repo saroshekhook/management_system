@@ -15,7 +15,7 @@ export async function isAuth(req: Request, res: Response, next: NextFunction) {
   try {
     if (token == null) return errorThrower("", 401);
     const verify = promisify<
-      (token: string, secret: string) => Promise<JwtPayload>
+    (token: string, secret: string) => Promise<JwtPayload>
     >(jwt.verify as any);
     const decodedToken = await verify(token, getJWTSecret());
     (req as RequestWithUser).user = decodedToken; // TODO check correct ts
@@ -40,7 +40,6 @@ export function isAuthorized(...type: USER_Type[]) {
     if (Array.isArray(type) && !type.includes(userPayload.type)) {
       return res.sendStatus(403);
     }
-
     next();
   };
 }

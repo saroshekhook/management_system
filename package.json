@@ -8,6 +8,7 @@
     "start": "nodemon src/app.ts",
     "migrate": "tsc && sequelize db:migrate",
     "migrate:undo": "tsc && sequelize db:migrate:undo",
+    "migrate:undo:all": "tsc && sequelize db:migrate:undo:all",
     "sequelize": "sequelize"
   },
   "keywords": [],
