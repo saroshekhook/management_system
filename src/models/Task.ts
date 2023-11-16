@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../db";
+import User from "./User";
 
 export enum TASK_Status {
   done = "done",
@@ -12,6 +13,7 @@ type TaskAttributes = {
   id?: number;
   description?: string;
   status?: TASK_Status;
+  userId?: number;
 };
 
 type TaskAttributesCreation = Optional<TaskAttributes, "id">;
@@ -20,6 +22,7 @@ class Task extends Model<TaskAttributes, TaskAttributesCreation> {
   declare id: number;
   declare description: string;
   declare status: TASK_Status;
+  declare userId?: number;
 }
 
 Task.init(
@@ -30,7 +33,6 @@ Task.init(
       allowNull: false,
       primaryKey: true,
     },
-    // Model attributes are defined here
     description: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -44,6 +46,14 @@ Task.init(
       ),
       allowNull: false,
       defaultValue: TASK_Status.pending,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
+      },
+      allowNull: false,
     },
   },
   {

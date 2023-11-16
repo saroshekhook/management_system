@@ -33,14 +33,15 @@ export const createTask = async (req: Request, res: Response) => {
   try {
     //TODO check fix typescript later
     const user = await User.findByPk((req as RequestWithUser).user.id);
-
+    // console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     const task = await Task.create({
       description: req.body.description,
-      id: user.id,
+      userId: req.body.userId,
+      // userId: user.id,
     });
     res.status(200).json(task.toJSON());
   } catch (error) {
